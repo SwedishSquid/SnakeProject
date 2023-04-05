@@ -1,12 +1,14 @@
 class SnakeGame {
     field Snake snake; 
     // направление: 0 = стоп, 1 = вверх, 2 = вниз, 3 = влево, 4 = вправо
-    field int direction; 
-                            
+    field int direction;     
     field int lives;
     field int score;
     field int highScore;
     field boolean exit;
+    field int xApple; 
+    field int yApple; 
+    field int appleCounter;
 
     constructor SnakeGame new() 
     {
@@ -16,6 +18,8 @@ class SnakeGame {
         let score = 0;
         let highScore = 0;
         let exit = false;
+        let appleCounter = 0;
+        do apple();
         return this;
     }
 
@@ -25,14 +29,51 @@ class SnakeGame {
         do Memory.deAlloc(this);
         return;
     }
+    
+    /** Создание окружения */
+    method void drawBorder() 
+    {
+        do Output.moveCursor(0,0); 
+        do Output.println();
+        do Output.printString("Snake! Shhh");
+        do Output.println();
+        // Информация о змейке
+        do Output.printString("Lives: ");
+        do Output.printInt(lives); 
+        do Output.println();
+        do Output.printString("Score: ");
+        do Output.printInt(score);
+        do Output.println();
+        do Output.println();
+        do Output.printString("Hi-score: "); 
+        do Output.println(); 
+        do Output.printInt(highScore);
+        // Границы
+        do Screen.setColor(true); // задает кисти черный цвет
+        do Screen.drawLine(100,0,100,255); // жирная
+        do Screen.drawLine(99,0,99,255); // левая граница
+        do Screen.drawLine(511,0,511,255); // жирная
+        do Screen.drawLine(510,0,510,255); // правая граница
+        do Screen.drawLine(100,0,511,0); // жирная
+        do Screen.drawLine(100,1,511,1); // верхняя граница
+        do Screen.drawLine(100,255,511,255); // жирная
+        do Screen.drawLine(100,254,511,254); // нижняя граница
+
+        return;
+    }  
 
     method void moveSnake() 
     {
         var int currDir;
         var int distance;
         var int snakeLength; 
+        let distance = dist(snake.getXcord(), snake.getYcord()); 
         let currDir = snake.getCurrDir();
-        if(~(snake.getAlive()) // змея откинулась
+        if (distance < 5) 
+        {
+            do pointsApple();
+        }
+        if(~(snake.getAlive()) // проверка на то, что змея откинулась
         {
            do Output.printString("Hehe! Death))");
            do death();
@@ -95,36 +136,93 @@ class SnakeGame {
         }
         return;
     }
-    
-    /** Создание окружения */
-    method void drawBorder() 
-    {
-        do Output.moveCursor(0,0); 
-        do Output.println();
-        do Output.printString("Snake! Shhh");
-        do Output.println();
-        // Информация о змейке
-        do Output.printString("Lives: ");
-        do Output.printInt(lives); 
-        do Output.println();
-        do Output.printString("Score: ");
-        do Output.printInt(score);
-        do Output.println();
-        do Output.println();
-        do Output.printString("Hi-score: "); 
-        do Output.println(); 
-        do Output.printInt(highScore);
-        // Границы
-        do Screen.setColor(true); // задает кисти черный цвет
-        do Screen.drawLine(100,0,100,255); // жирная
-        do Screen.drawLine(99,0,99,255); // левая граница
-        do Screen.drawLine(511,0,511,255); // жирная
-        do Screen.drawLine(510,0,510,255); // правая граница
-        do Screen.drawLine(100,0,511,0); // жирная
-        do Screen.drawLine(100,1,511,1); // верхняя граница
-        do Screen.drawLine(100,255,511,255); // жирная
-        do Screen.drawLine(100,254,511,254); // нижняя граница
 
+    method int dist( int xSnake, int ySnake)
+    {
+        var int distance;
+        var int xDist;
+        var int yDist;
+        var int bothDist;
+        let xDist = Math.multiply((xApple-xSnake), (xApple-xSnake));
+        let yDist = Math.multiply((yApple-ySnake), (yApple-ySnake));
+        let bothDist = xDist + yDist; 
+        if(bothDist > 0)
+        {
+            return Math.sqrt(bothDist);
+        }
+        return 999;
+    }
+    
+    method void apple()
+    {
+        let xApple = 150;
+        let yApple = 150;
+        do Screen.setColor(true);
+        do Screen.drawCircle(150,150,5);
+        return; 
+    }
+
+    method void pointsApple ()
+    {
+        var int distance;
+        var int snakeLength;
+        
+        let distance = dist(snake.getXcord(), snake.getYcord()); 
+        let appleCounter = appleCounter + 1; 
+        do Screen.setColor(false);
+        do Screen.drawCircle(xApple,yApple,5);
+        let score = score + 10;
+        do Output.moveCursor(3,7);  
+        do Output.printInt(score);
+        let snakeLength = snake.getLength() + 100;
+        if ( snakeLength < snake.getMaxLength())
+        {
+            do snake.setLength(snakeLength);
+        }
+        do randomApple (); 
+        do Screen.setColor(true);
+        do Screen.drawCircle(xApple,yApple,5);
+            
         return;
-    }  
+    }
+
+    method void randomApple ()
+    {
+        if (appleCounter = 1)
+        {
+            let xApple = 120;
+            let yApple = 50;
+        }
+        if (appleCounter = 2)
+        {
+            let xApple = 150;
+            let yApple = 200;
+        }
+        if (appleCounter = 3)
+        {
+            let xApple = 300;
+            let yApple = 150;
+        }
+        if (appleCounter = 4)
+        {
+            let xApple = 250;
+            let yApple = 50;
+        }
+        if (appleCounter = 5)
+        {
+            let xApple = 400;
+            let yApple = 200;  
+        }
+        if (appleCounter = 6)
+        {
+            let xApple = 200;
+            let yApple = 70;  
+        }
+        if (appleCounter = 7)
+        {
+            let xApple = 450;
+            let yApple = 120;
+            let appleCounter = 0;  
+        }
+    }
 }
