@@ -1,0 +1,130 @@
+class SnakeGame {
+    field Snake snake; 
+    // направление: 0 = стоп, 1 = вверх, 2 = вниз, 3 = влево, 4 = вправо
+    field int direction; 
+                            
+    field int lives;
+    field int score;
+    field int highScore;
+    field boolean exit;
+
+    constructor SnakeGame new() 
+    {
+        let snake = Snake.new(300, 126, 200);
+        let direction = 0; 
+        let lives = 2;
+        let score = 0;
+        let highScore = 0;
+        let exit = false;
+        return this;
+    }
+
+    method void dispose() 
+    {
+        do snake.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method void moveSnake() 
+    {
+        var int currDir;
+        var int distance;
+        var int snakeLength; 
+        let currDir = snake.getCurrDir();
+        if(~(snake.getAlive()) // змея откинулась
+        {
+           do Output.printString("Hehe! Death))");
+           do death();
+        }
+        //прошлое направление вверх
+        if ((direction = 1))  
+        { 
+            if((currDir = 2)) //новое не вниз
+            {
+                let direction = currDir; //поменять направление
+            }
+            else 
+            {
+                do snake.moveUp();
+                do snake.updateSnake();
+                do snake.setCurrDir(1);
+            }
+        }
+        //прошлое направление вниз
+        if ((direction) = 2) 
+        {
+            if((currDir = 1)) //новое не вверх
+            {
+                let direction = currDir; //поменять направление
+            }
+            else 
+            {
+                do snake.moveDown();
+                do snake.updateSnake();
+                do snake.setCurrDir(2);
+            }
+        }
+        //прошлое направление влево
+        if (direction = 3) 
+        {
+            if((currDir = 4)) //новое не вправо
+            {
+                let direction = currDir; //поменять направление
+            }
+            else 
+            {
+                do snake.moveLeft();
+                do snake.updateSnake();
+                do snake.setCurrDir(3);
+            }
+        }
+        //прошлое направление вправо
+        if (direction = 4) 
+        { 
+            if((currDir = 3)) //новое не влево
+            {
+                let direction = currDir; //поменять направление
+            }
+            else 
+            {
+                do snake.moveRight();
+                do snake.updateSnake();
+                do snake.setCurrDir(4);
+            }
+        }
+        return;
+    }
+    
+    /** Создание окружения */
+    method void drawBorder() 
+    {
+        do Output.moveCursor(0,0); 
+        do Output.println();
+        do Output.printString("Snake! Shhh");
+        do Output.println();
+        // Информация о змейке
+        do Output.printString("Lives: ");
+        do Output.printInt(lives); 
+        do Output.println();
+        do Output.printString("Score: ");
+        do Output.printInt(score);
+        do Output.println();
+        do Output.println();
+        do Output.printString("Hi-score: "); 
+        do Output.println(); 
+        do Output.printInt(highScore);
+        // Границы
+        do Screen.setColor(true); // задает кисти черный цвет
+        do Screen.drawLine(100,0,100,255); // жирная
+        do Screen.drawLine(99,0,99,255); // левая граница
+        do Screen.drawLine(511,0,511,255); // жирная
+        do Screen.drawLine(510,0,510,255); // правая граница
+        do Screen.drawLine(100,0,511,0); // жирная
+        do Screen.drawLine(100,1,511,1); // верхняя граница
+        do Screen.drawLine(100,255,511,255); // жирная
+        do Screen.drawLine(100,254,511,254); // нижняя граница
+
+        return;
+    }  
+}
