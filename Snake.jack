@@ -152,7 +152,65 @@ class Snake {
         
         let theSnake[0] = x;
         let theSnake[1] = y;
+        return; }
+        
+
+    
+    method void wallDeath() {
+        
+        if(x = 99 | x = 100){
+            let alive = false;
+        }
+
+        if(x=505 | x=504){
+            let alive = false;
+        }
+        
+        if(y=5 | y=4){
+            let alive = false;
+        }
+
+        if(y=247 | y=248){
+            let alive = false;
+        }
         
         return;
-    }  
+    }
+    
+
+    method boolean getAlive(){
+        return alive;
+    }
+    method void setAlive(boolean status){
+        let alive = status;
+        return;
+    }
+    
+    method void setCurrDir(int newCurrDir){
+        let currentDirection = newCurrDir;
+        return;
+    }
+    method int getCurrDir(){
+        return currentDirection;
+    }
+    
+    method int getXcord (){
+        return x;
+    }
+    method int getYcord(){
+        return y;
+    }
+    
+    
+    method void setLength( int newLength){
+        let length = newLength;
+        return;
+    }
+    method int getLength(){   
+        return length;
+    }
+    
+    method int getMaxLength(){
+        return maxLength;
+    }
 }
