@@ -1,0 +1,82 @@
+class Snake {
+
+   field int x, y; 
+   field int size; 
+   field int length; 
+   field int maxLength; 
+   field Array theSnake; 
+   field int currentDirection; 
+   field boolean alive;
+  
+   constructor Snake new(int Ax, int Ay, int Alength) {
+      var int i;
+      var int startLength;
+      let i = 0;
+      let startLength = 200;
+      let maxLength = 2000; 
+      let x = Ax;
+      let y = Ay;
+      
+      let length = Alength;
+      let currentDirection = 4; 
+      let alive = true; 
+      let theSnake = Array.new(maxLength); 
+   
+      while(i < maxLength){  
+            let theSnake[i] = x - (i/2); 
+            let theSnake[i+1] = y; 
+            let i = i+2;
+      }
+
+      do draw();
+      return this;
+   }
+
+   method void dispose() {
+      do Memory.deAlloc(this);
+      return;
+   }
+
+   method void draw() {
+      var int i;
+      let i = 0; 
+      do Screen.setColor(true);
+      while(i < length){
+          do Screen.drawCircle(theSnake[i],theSnake[i+1],3);
+          let i = i+2;
+      }
+     
+      return;
+   }
+
+    method void initSnake (int Ax, int Ay) {
+      var int i;
+      let i = 0;
+      let x = Ax;
+      let y = Ay;
+      let currentDirection = 4;
+      let length = 200;
+    
+      while(i < maxLength){  
+       let theSnake[i] = x - (i/2); 
+       let theSnake[i+1] = y; 
+       let i = i+2;
+       }
+     
+      return;
+   }
+
+   method void erase() {
+      var int i;
+      let i = 0; 
+      do Screen.setColor(false);
+      while(i < length){
+          do Screen.drawCircle(theSnake[i],theSnake[i+1],3);
+          let i = i+2;
+      }
+     
+      return;
+   }
+
+
+}
