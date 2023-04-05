@@ -29,7 +29,43 @@ class SnakeGame {
         do Memory.deAlloc(this);
         return;
     }
-    
+
+    method void run() 
+    {
+        var char key; 
+        var int timer;
+        let timer = 0;
+        do drawBorder(); 
+        
+        while (~exit) 
+        {
+            while (key = 0) 
+            {
+                let key = Keyboard.keyPressed();
+                do moveSnake();
+            }
+
+            let timer = timer + 1;
+            if((timer / 10) = 1)
+            {
+                let score = score +1;
+                do Output.moveCursor(3,7);  
+                do Output.printInt(score);
+                let timer = 0; 
+            }
+            if (key = 81)  { let exit = true; }     
+            if (key = 131) { let direction = 1; }   
+            if (key = 133) { let direction = 2; } 
+            if (key = 130 & ~(direction = 0 )) { let direction = 3; }  
+            if (key = 132) { let direction = 4; }  
+            while (~(key = 0)) {
+                let key = Keyboard.keyPressed();
+                do moveSnake();
+            }
+        } 
+        return;
+    }
+
     /** Создание окружения */
     method void drawBorder() 
     {
@@ -61,6 +97,55 @@ class SnakeGame {
 
         return;
     }  
+
+    method void gameOver()
+    {
+        var char key;
+        do Screen.clearScreen();
+        do Output.moveCursor(11,22);
+        do Output.printString("Game Over");
+        do Output.moveCursor(13,22);
+        do Output.printString("High Score: ");
+        do Output.printInt(highScore);
+        while(~exit)
+        {
+            let key = Keyboard.keyPressed();
+            if (key = 81)
+            {
+                let exit = true;
+            }
+        }
+        return;
+    }
+
+    method void death() 
+    {
+        let lives = lives - 1;
+        do snake.setAlive(true);
+        if(score > highScore)
+        {
+            let highScore = score;
+            let score = 0;
+        }
+        
+        if(lives > 0)
+        {
+            do snake.initSnake(300,126);
+            do Screen.clearScreen(); 
+            do drawBorder();
+            let direction = 0;
+            do snake.draw();
+            do apple();
+        }
+        else
+        {
+           do snake.erase();
+           do snake.initSnake(300,126);
+           do gameOver();
+        }
+
+        return;
+    }
 
     method void moveSnake() 
     {
@@ -137,7 +222,7 @@ class SnakeGame {
         return;
     }
 
-    method int dist( int xSnake, int ySnake)
+    method int dist(int xSnake, int ySnake)
     {
         var int distance;
         var int xDist;
@@ -162,7 +247,7 @@ class SnakeGame {
         return; 
     }
 
-    method void pointsApple ()
+    method void pointsApple()
     {
         var int distance;
         var int snakeLength;
@@ -186,7 +271,7 @@ class SnakeGame {
         return;
     }
 
-    method void randomApple ()
+    method void randomApple()
     {
         if (appleCounter = 1)
         {
