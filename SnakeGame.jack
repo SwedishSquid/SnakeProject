@@ -12,7 +12,7 @@ class SnakeGame {
 
     constructor SnakeGame new() 
     {
-        let snake = Snake.new(300, 126, 200);
+        let snake = Snake.new(300, 126);
         let direction = 0; 
         let lives = 2;
         let score = 0;
@@ -48,16 +48,16 @@ class SnakeGame {
             let timer = timer + 1;
             if((timer / 10) = 1)
             {
-                let score = score +1;
+                let score = score + 1;
                 do Output.moveCursor(3,7);  
                 do Output.printInt(score);
                 let timer = 0; 
             }
-            if (key = 81)  { let exit = true; }     
-            if (key = 131) { let direction = 1; }   
-            if (key = 133) { let direction = 2; } 
-            if (key = 130 & ~(direction = 0 )) { let direction = 3; }  
-            if (key = 132) { let direction = 4; }  
+            if (key = 81)  { let exit = true; }     //Q
+            if (key = 131) { let direction = 1; }   //arrow up 
+            if (key = 133) { let direction = 2; }   //arrow down
+            if (key = 130 & ~(direction = 0)) { let direction = 3; }  //arrow left 
+            if (key = 132) { let direction = 4; }   //arrow right 
             while (~(key = 0)) {
                 let key = Keyboard.keyPressed();
                 do moveSnake();
@@ -71,7 +71,7 @@ class SnakeGame {
     {
         do Output.moveCursor(0,0); 
         do Output.println();
-        do Output.printString("Snake! Shhh");
+        do Output.printString("Snake! Shhh. Sofa here (not sofa)");
         do Output.println();
         // Информация о змейке
         do Output.printString("Lives: ");
@@ -124,9 +124,9 @@ class SnakeGame {
         do snake.setAlive(true);
         if(score > highScore)
         {
-            let highScore = score;
-            let score = 0;
+            let highScore = score;           
         }
+        let score = 0;
         
         if(lives > 0)
         {
@@ -140,7 +140,7 @@ class SnakeGame {
         else
         {
            do snake.erase();
-           do snake.initSnake(300,126);
+           //do snake.initSnake(300,126);
            do gameOver();
         }
 
@@ -166,7 +166,7 @@ class SnakeGame {
         //прошлое направление вверх
         if ((direction = 1))  
         { 
-            if((currDir = 2)) //новое не вниз
+            if((currDir = 2)) //новое вниз
             {
                 let direction = currDir; //поменять направление
             }
@@ -231,11 +231,7 @@ class SnakeGame {
         let xDist = Math.multiply((xApple-xSnake), (xApple-xSnake));
         let yDist = Math.multiply((yApple-ySnake), (yApple-ySnake));
         let bothDist = xDist + yDist; 
-        if(bothDist > 0)
-        {
-            return Math.sqrt(bothDist);
-        }
-        return 999;
+        return Math.sqrt(bothDist);
     }
     
     method void apple()
@@ -260,11 +256,11 @@ class SnakeGame {
         do Output.moveCursor(3,7);  
         do Output.printInt(score);
         let snakeLength = snake.getLength() + 100;
-        if ( snakeLength < snake.getMaxLength())
+        if (snakeLength < snake.getMaxLength())
         {
             do snake.setLength(snakeLength);
         }
-        do randomApple (); 
+        do randomApple(); 
         do Screen.setColor(true);
         do Screen.drawCircle(xApple,yApple,5);
             

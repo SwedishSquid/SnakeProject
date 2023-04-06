@@ -34,7 +34,6 @@ class Snake {
         return this;
     }
 
-    /** Disposes this snake. */
     method void dispose() {
         do Memory.deAlloc(this);
         return;
@@ -83,7 +82,7 @@ class Snake {
         return;
     }
 
-    method void moveSnake(int newX, int newY) {
+    method void moveToDirection(int newX, int newY) {
 
         do Screen.setColor(false);
         // стереть хвост
@@ -99,7 +98,7 @@ class Snake {
     method void moveUp() {
         if (y > 1) {
             let y = y - 1;
-            moveSnake(x, y);
+            moveToDirection(x, y);
         }
         return;           
     }
@@ -108,7 +107,7 @@ class Snake {
     method void moveDown() {
         if (y < 254) {
             let y = y + 1;
-            moveSnake(x, y);
+            moveToDirection(x, y);
         }
         return;
     }
@@ -117,7 +116,7 @@ class Snake {
     method void moveLeft() {
         if (x > 1) {
             let x = x - 1;
-            moveSnake(x, y);
+            moveToDirection(x, y);
         }
         return;
     }
@@ -126,7 +125,7 @@ class Snake {
     method void moveRight() {
         if (x < 510) {
             let x = x + 1;
-            moveSnake(x, y);
+            moveToDirection(x, y);
         }
         return;
     }
