@@ -71,7 +71,7 @@ class SnakeGame {
     {
         do Output.moveCursor(0,0); 
         do Output.println();
-        do Output.printString("Snake! Shhh. Sofa here (not sofa)");
+        do Output.printString("Snake! Shhh");
         do Output.println();
         // Информация о змейке
         do Output.printString("Lives: ");
@@ -163,10 +163,10 @@ class SnakeGame {
            do Output.printString("Hehe! Death))");
            do death();
         }
-        //прошлое направление вверх
+        //нажата стрелка вверх
         if ((direction = 1))  
         { 
-            if((currDir = 2)) //новое вниз
+            if((currDir = 2)) //старое вниз
             {
                 let direction = currDir; //поменять направление
             }
@@ -177,10 +177,10 @@ class SnakeGame {
                 do snake.setCurrDir(1);
             }
         }
-        //прошлое направление вниз
+        //нажата стрелка вниз
         if ((direction) = 2) 
         {
-            if((currDir = 1)) //новое не вверх
+            if((currDir = 1)) //старое вверх
             {
                 let direction = currDir; //поменять направление
             }
@@ -191,10 +191,10 @@ class SnakeGame {
                 do snake.setCurrDir(2);
             }
         }
-        //прошлое направление влево
+        //нажата стрелка влево
         if (direction = 3) 
         {
-            if((currDir = 4)) //новое не вправо
+            if((currDir = 4)) //старое вправо
             {
                 let direction = currDir; //поменять направление
             }
@@ -205,10 +205,10 @@ class SnakeGame {
                 do snake.setCurrDir(3);
             }
         }
-        //прошлое направление вправо
+        //нажата стрелка вправо
         if (direction = 4) 
         { 
-            if((currDir = 3)) //новое не влево
+            if((currDir = 3)) //старое влево
             {
                 let direction = currDir; //поменять направление
             }
