@@ -23,7 +23,7 @@ class Snake {
         let alive = true; 
         let theSnake = Array.new(maxLength); 
     
-        while(i < length){  //maxLength
+        while(i < maxLength){ 
                 let theSnake[i] = x - (i/2); // x-координата
         
                 let theSnake[i+1] = y; // y-координата

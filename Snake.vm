@@ -22,7 +22,7 @@ call Array.new 1
 pop this 5
 label WHILE_EXP0
 push local 0
-push this 3
+push this 4
 lt
 not
 if-goto WHILE_END0
