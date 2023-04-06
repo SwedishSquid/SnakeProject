@@ -98,7 +98,7 @@ class Snake {
     method void moveUp() {
         if (y > 1) {
             let y = y - 1;
-            moveToDirection();
+            do moveToDirection();
         }
         return;           
     }
@@ -107,7 +107,7 @@ class Snake {
     method void moveDown() {
         if (y < 254) {
             let y = y + 1;
-            moveToDirection();
+            do moveToDirection();
         }
         return;
     }
@@ -116,7 +116,7 @@ class Snake {
     method void moveLeft() {
         if (x > 1) {
             let x = x - 1;
-            moveToDirection();
+            do moveToDirection();
         }
         return;
     }
@@ -125,7 +125,7 @@ class Snake {
     method void moveRight() {
         if (x < 510) {
             let x = x + 1;
-            moveToDirection();
+            do moveToDirection();
         }
         return;
     }
