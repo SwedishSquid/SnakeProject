@@ -1,163 +1,166 @@
 class Snake {
 
-   field int x, y; 
-   field int size; 
-   field int length; 
-   field int maxLength; 
-   field Array theSnake; 
-   field int currentDirection; 
-   field boolean alive;
-  
-   constructor Snake new(int Ax, int Ay, int Alength) {
-      var int i;
-      var int startLength;
-      let i = 0;
-      let startLength = 200;
-      let maxLength = 2000; 
-      let x = Ax;
-      let y = Ay;
-      
-      let length = Alength;
-      let currentDirection = 4; 
-      let alive = true; 
-      let theSnake = Array.new(maxLength); 
-   
-      while(i < maxLength){  
-            let theSnake[i] = x - (i/2); 
-            let theSnake[i+1] = y; 
-            let i = i+2;
-      }
-
-      do draw();
-      return this;
-   }
-
-   method void dispose() {
-      do Memory.deAlloc(this);
-      return;
-   }
-
-   method void draw() {
-      var int i;
-      let i = 0; 
-      do Screen.setColor(true);
-      while(i < length){
-          do Screen.drawCircle(theSnake[i],theSnake[i+1],3);
-          let i = i+2;
-      }
-     
-      return;
-   }
-
-    method void initSnake (int Ax, int Ay) {
-      var int i;
-      let i = 0;
-      let x = Ax;
-      let y = Ay;
-      let currentDirection = 4;
-      let length = 200;
+    field int x, y; // местоположение змейки на экране
+    field int size; // длина змейки в пикселях
+    field int length; // текущая длина змеи
+    field int maxLength; // максимальная длина змейки
+    field Array theSnake; // Змея всегда одной и той же длины, но черные - его текущая длина
+    field int currentDirection; // последняя нажатая пользователем кнопка
+    field boolean alive; //Жива ли змейка
     
-      while(i < maxLength){  
-       let theSnake[i] = x - (i/2); 
-       let theSnake[i+1] = y; 
-       let i = i+2;
-       }
-     
-      return;
-   }
 
-   method void erase() {
-      var int i;
-      let i = 0; 
-      do Screen.setColor(false);
-      while(i < length){
-          do Screen.drawCircle(theSnake[i],theSnake[i+1],3);
-          let i = i+2;
-      }
-     
-      return;
-   }
+    //Создаём новую змейку с заданными местоположением и размером
+    constructor Snake new(int Ax, int Ay) {
+        var int i;
+        var int startLength;
+        let i = 0;
+        let maxLength = 2000; 
+        let x = Ax;
+        let y = Ay;
+        
+        let length = 200;
+        let currentDirection = 4; //Змея смотрит вправо изначально
+        let alive = true; 
+        let theSnake = Array.new(maxLength); 
+    
+        while(i < length){  //maxLength
+                let theSnake[i] = x - (i/2); // x-координата
+        
+                let theSnake[i+1] = y; // y-координата
+                let i = i+2;
+        }
+        //Первый draw, который рисует часть змейки
+        do draw();
+        return this;
+    }
 
+    /** Disposes this snake. */
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
 
-   method void moveUp() {
-       if (y > 1) {
-         do Screen.setColor(false);
-
-         do Screen.drawCircle(theSnake[ length-2 ], theSnake[ length - 1 ], 3);
-         let y = y - 1;
-
-         do Screen.setColor(true);
-         do Screen.drawCircle(x, y, 3);
-      }
-      return;
-   }
-
-
-   method void moveDown() {
-      if (y < 254) {
-           do Screen.setColor(false);
-
-         do Screen.drawCircle(theSnake[ length ], theSnake[ length + 1 ], 3);
-         let y = y + 1;
-
-         do Screen.setColor(true);
-         do Screen.drawCircle(x, y, 3);
-      }
-      return;
-   }
-
-
-   method void moveLeft() {
-     if (x > 1) {
-         do Screen.setColor(false);
-         do Screen.drawCircle(theSnake[ length ], theSnake[ length + 1 ], 3);
-         let x = x - 1;
-         do Screen.setColor(true);
-         do Screen.drawCircle(x, y, 3);
-      }
-      return;
-   }
-   
-   method void moveRight() {
-      if (x < 510) {
-        do Screen.setColor(false);
-        do Screen.drawCircle(theSnake[ length ], theSnake[ length + 1 ], 3);
-        let x = x + 1;
+    // Рисует змейку на экране
+    method void draw() {
+        var int i;
+        let i = 0; 
         do Screen.setColor(true);
-        do Screen.drawCircle(x, y, 3);
-      }
-      return;
-   }
+        while(i < length){
+            do Screen.drawCircle(theSnake[i],theSnake[i+1],3);
+            let i = i+2;
+        }
+        
+        return;
+    }
+        // когда змейка сдыхает, её надо возрадить из пепла
+        method void initSnake (int Ax, int Ay) {
+        var int i;
+        let i = 0;
+        let x = Ax;
+        let y = Ay;
+        let currentDirection = 4;
+        let length = 200;
+        
+        while(i < maxLength){  //чзх
+        let theSnake[i] = x - (i/2); // x-координата
+        let theSnake[i+1] = y; // y-координата
+        let i = i+2;
+        }
+        
+        return;
+    }
 
+    // Стереть змейку с экрана
+    method void erase() {
+        var int i;
+        let i = 0; 
+        do Screen.setColor(false);
+        while(i < length){
+            do Screen.drawCircle(theSnake[i],theSnake[i+1],3);
+            let i = i+2;
+        }
+        
+        return;
+    }
+
+    method void moveSnake(int newX, int newY) {
+
+        do Screen.setColor(false);
+        // стереть хвост
+        do Screen.drawCircle(theSnake[length], theSnake[length + 1], 3); //length - 2, length - 1
+        // дорисовать голову
+        do Screen.setColor(true);
+        do Screen.drawCircle(newX, newY, 3);
+        
+        return;
+    }
+
+    // Переместить змею вверх на один пиксель 
+    method void moveUp() {
+        if (y > 1) {
+            let y = y - 1;
+            moveSnake(x, y);
+        }
+        return;           
+    }
+
+    // Переместить змею вниз на один пиксель
+    method void moveDown() {
+        if (y < 254) {
+            let y = y + 1;
+            moveSnake(x, y);
+        }
+        return;
+    }
+
+    // Переместить змею влево на один пиксель
+    method void moveLeft() {
+        if (x > 1) {
+            let x = x - 1;
+            moveSnake(x, y);
+        }
+        return;
+    }
+
+    //Переместить змею вправо на один пиксель
+    method void moveRight() {
+        if (x < 510) {
+            let x = x + 1;
+            moveSnake(x, y);
+        }
+        return;
+    }
+        // Каждый раз, когда змейка двигается, её координаты обновлятся
     method void updateSnake() {
         var int i;
         let i = maxLength-2;
-        
-         do Screen.setColor(false);
-         do Screen.drawCircle(theSnake[ length ], theSnake[ length + 1 ], 3);
-         do wallDeath(); 
-        
-
+            
+        do Screen.setColor(false);
+        // стереть хвост
+        do Screen.drawCircle(theSnake[ length ], theSnake[ length + 1 ], 3);
+        do wallDeath(); // смерть при ударе о стену
+            
         while(i > 0){
-            
-            let theSnake[i] = theSnake[i-2]; 
-            let theSnake[i+1] = theSnake[i-1]; 
-            
-            if((theSnake[i] = x) & theSnake[i+1] = y & ~(currentDirection = 0) & (i < (length+1) )) {
+                
+            let theSnake[i] = theSnake[i-2]; // подвинуть x-координату на два шага назад
+            let theSnake[i+1] = theSnake[i-1]; // подвинуть у-координату на два шага назад
+                
+            if( (theSnake[i] = x) & theSnake[i+1] = y & ~(currentDirection = 0) & (i < (length+1))){ // (i < (length+1)
+                // (i < (length+1) только черные "части" вызывают смерть
                 let alive = false;
             }
-   
             let i = i-2;
         }
-        
+        // новые координаты головы змейки
         let theSnake[0] = x;
         let theSnake[1] = y;
-        return; }
+            
+        return;
+    }
         
-
-    
-    method void wallDeath() {
-        
+        // смерть от удара о стену
+    method void wallDeath(){ 
+        // змейка не должна вырисовываться за стенами, потому что это вызовет ошибку
         if(x = 99 | x = 100){
             let alive = false;
         }
@@ -165,7 +168,7 @@ class Snake {
         if(x=505 | x=504){
             let alive = false;
         }
-        
+         
         if(y=5 | y=4){
             let alive = false;
         }
@@ -173,35 +176,33 @@ class Snake {
         if(y=247 | y=248){
             let alive = false;
         }
-        
+         
         return;
     }
-    
-
+        
     method boolean getAlive(){
         return alive;
     }
-    method void setAlive(boolean status){
+    method void setAlive( boolean status){
         let alive = status;
         return;
     }
-    
+        
     method void setCurrDir(int newCurrDir){
         let currentDirection = newCurrDir;
         return;
-    }
+    }   
     method int getCurrDir(){
         return currentDirection;
     }
-    
+        
     method int getXcord (){
         return x;
     }
     method int getYcord(){
         return y;
     }
-    
-    
+        
     method void setLength( int newLength){
         let length = newLength;
         return;
@@ -209,7 +210,7 @@ class Snake {
     method int getLength(){   
         return length;
     }
-    
+
     method int getMaxLength(){
         return maxLength;
     }
