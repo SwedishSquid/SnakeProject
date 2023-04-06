@@ -158,7 +158,7 @@ class SnakeGame {
         {
             do pointsApple();
         }
-        if(~(snake.getAlive()) // проверка на то, что змея откинулась
+        if(~(snake.getAlive())) // проверка на то, что змея откинулась
         {
            do Output.printString("Hehe! Death))");
            do death();
@@ -308,6 +308,7 @@ class SnakeGame {
             let xApple = 450;
             let yApple = 120;
             let appleCounter = 0;  
-        }
+        } 
+        return;
     }
 }
