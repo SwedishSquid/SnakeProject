@@ -140,7 +140,6 @@ class SnakeGame {
         else
         {
            do snake.erase();
-           //do snake.initSnake(300,126);
            do gameOver();
         }
 
