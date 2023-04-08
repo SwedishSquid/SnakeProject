@@ -669,16 +669,7 @@ push local 2
 add
 pop local 3
 push local 3
-push constant 0
-gt
-if-goto IF_TRUE0
-goto IF_FALSE0
-label IF_TRUE0
-push local 3
 call Math.sqrt 1
-return
-label IF_FALSE0
-push constant 999
 return
 function SnakeGame.apple 0
 push argument 0
